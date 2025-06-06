@@ -1,0 +1,16 @@
+{
+  "manifest_version": 2,
+  "name": "Always-On Extension",
+  "version": "1.0",
+  "description": "Runs on all websites automatically.",
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": [
+    "<all_urls>"
+  ]
+}
