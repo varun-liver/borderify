@@ -1,2 +1,4 @@
-document.body.style.border = "5px solid red";
-console.log("✅ Border added to:", window.location.hostname);
+if (window.location.hostname === "www.example.com"|| window.location.hostname === "example.com") {
+  document.body.style.border = "5px solid red";
+  console.log("at example.com");
+}
