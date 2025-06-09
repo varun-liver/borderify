@@ -10,3 +10,13 @@ if (allowedDomains.some(domain =>
 } else {
   console.log("⛔ Not matched:", currentDomain);
 }
+chrome.runtime.onConnect.addListener((port) => {
+  console.log("Connected:", port.name);
+
+  port.onMessage.addListener((msg) => {
+    console.log("Got from popup:", msg.greeting);
+
+    // Send something back
+    port.postMessage({ reply: "hello from background" });
+  });
+});
