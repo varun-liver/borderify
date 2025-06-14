@@ -6,29 +6,8 @@
 <body>
   <h1>Hello, Firefox!</h1>
   <button id="clickMe">Click Me</button>
-  <script>
-    function downloadTextFile() {
-  const text = "intialize";
-  const filename = "example.txt";
 
-  // Create a Blob with the text
-  const blob = new Blob([text], { type: 'text/plain' });
-
-  // Create a temporary URL for the Blob
-  const url = URL.createObjectURL(blob);
-
-  // Create a temporary anchor element
-  const a = document.createElement('a');
-  a.innerHTML = "<h1>hello</h1>"
-  a.href = url;
-  a.download = filename;
-
-  // Automatically click the anchor to trigger the download
-  a.click();
-
-  // Clean up the URL object
-  URL.revokeObjectURL(url);
-}
-  </script>
+  <!-- Reference external script -->
+  <script src="popup.js"></script>
 </body>
 </html>

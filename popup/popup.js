@@ -1,18 +1,19 @@
-// popup.js
-document.getElementById("resetButton").addEventListener("click", () => {
-  chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-        const fileInput = document.getElementById('fileInput');
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("clickMe").addEventListener("click", () => {
+    const text = "intialize";
+    const filename = "example.txt";
 
-    fileInput.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      const reader = new FileReader();
+    const blob = new Blob([text], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
 
-      reader.onload = (event) => {
-        const fileContent = event.target.result;
-        console.log(fileContent);
-      };
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.style.display = "none"; // Hide it from view
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
 
-      reader.readAsText(file);
-    });
+    URL.revokeObjectURL(url);
   });
 });
