@@ -1,12 +1,17 @@
-const allowedDomains = ["google.com", "example.com"];
-const currentDomain = window.location.hostname;
+browser.runtime.onMessage.addListener((message) => {
+  if (!message.allowedDomains) return;
 
-// Check for exact domain or subdomain match (like www.example.com)
-if (allowedDomains.some(domain =>
-  currentDomain === domain || currentDomain.endsWith("." + domain)
-)) {
-  document.body.style.border = "5px solid red";
-  console.log("✅ Matched:", currentDomain);
-} else {
-  console.log("⛔ Not matched:", currentDomain);
-}
+  const allowedDomains = message.allowedDomains;
+  const currentDomain = window.location.hostname;
+
+  const matched = allowedDomains.some(domain =>
+    currentDomain === domain || currentDomain.endsWith("." + domain)
+  );
+
+  if (matched) {
+    document.body.style.border = "5px solid red";
+    console.log("✅ Matched:", currentDomain);
+  } else {
+    console.log("⛔ Not matched:", currentDomain);
+  }
+});

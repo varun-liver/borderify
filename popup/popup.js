@@ -1,19 +1,24 @@
 document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("clickMe").addEventListener("click", () => {
-    const text = "intialize";
-    const filename = "example.txt";
+  const fileInput = document.getElementById("fileInput");
+  const status = document.getElementById("status");
 
-    const blob = new Blob([text], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
+  fileInput.addEventListener("change", event => {
+    const file = event.target.files[0];
+    if (!file) return;
 
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    a.style.display = "none"; // Hide it from view
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    const reader = new FileReader();
+    reader.onload = () => {
+      const domains = reader.result
+        .split("\n")
+        .map(line => line.trim())
+        .filter(Boolean); // Remove empty lines
 
-    URL.revokeObjectURL(url);
+      // Send domains to content.js
+      browser.tabs.query({ active: true, currentWindow: true }).then(tabs => {
+        browser.tabs.sendMessage(tabs[0].id, { allowedDomains: domains });
+        status.textContent = "✅ Domains sent to content script.";
+      });
+    };
+    reader.readAsText(file);
   });
 });
